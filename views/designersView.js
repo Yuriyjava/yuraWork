@@ -1,4 +1,4 @@
-define(["/resurces/source.js"], function (JSsource) {
+define(["resurces/source.js"], function (JSsource) {
 
 
 

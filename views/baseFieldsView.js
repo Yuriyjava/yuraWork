@@ -1,4 +1,4 @@
-define(["/resurces/controls.js"],function(JSControls){
+define(["resurces/controls.js"],function(JSControls){
     
     
      var controls = JSControls.controls;

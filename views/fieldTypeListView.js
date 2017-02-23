@@ -1,4 +1,4 @@
-define(["/modules/props.js"], function (JSprops) {
+define(["modules/props.js"], function (JSprops) {
 
     return function (config) {
 

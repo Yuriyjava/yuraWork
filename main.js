@@ -1,11 +1,11 @@
 require([
 "text!templates.html",
-"/views/baseFieldsView.js",
-"/views/propertiesView.js",
-"/views/uniqPropertiesView.js",
-"/views/fieldTypeListView.js",
-    "/views/designersView.js",
-"/views/editDesignerView.js"
+"views/baseFieldsView.js",
+"views/propertiesView.js",
+"views/uniqPropertiesView.js",
+"views/fieldTypeListView.js",
+    "views/designersView.js",
+"views/editDesignerView.js"
 ], function (Templates, BaseFieldsView, PropertiesView, UniqPropertiesView, FieldTypeListView, designersView, editDesignerView) {
     var div = document.createElement('div');
     div.innerHTML = Templates;
