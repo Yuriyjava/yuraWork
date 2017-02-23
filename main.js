@@ -3,8 +3,8 @@ require([
 "views/baseFieldsView.js",
 "views/propertiesView.js",
 "views/uniqPropertiesView.js",
-"views/fieldTypeListView.js",
-    "views/designersView.js",
+"views/fieldTypeListView.js", 
+"views/designersView.js",
 "views/editDesignerView.js"
 ], function (Templates, BaseFieldsView, PropertiesView, UniqPropertiesView, FieldTypeListView, designersView, editDesignerView) {
     var div = document.createElement('div');
@@ -46,7 +46,7 @@ require([
 
     });
     router.route("/properties", function () {
-       $("#forView").empty();
+        $("#forView").empty();
         $("#list").empty();
         $("#grid").empty();
         layout.showIn("#grid", properties);
@@ -54,14 +54,14 @@ require([
     });
     router.route("/uniqProperties", function () {
         $("#forView").empty();
-         $("#grid").empty();
+        $("#grid").empty();
         layout.showIn("#grid", uniqProperties.view);
         $("#list").empty();
         kendo.destroy($("#list"));
         layout.showIn("#list", fieldTypeList.view);
     });
     router.route("/designers", function () {
-      $("#forView").empty();
+        $("#forView").empty();
         $("#list").empty();
         $("#grid").empty();
         layout.showIn("#forView", designers.view);
