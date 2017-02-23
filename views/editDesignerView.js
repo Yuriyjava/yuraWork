@@ -219,7 +219,7 @@ define(["resurces/source.js"], function (JSsource) {
                                         propsPopup(options.model.Properties[arrField]);
                                     }
                                 });
-                                Object.keys(options.model.Properties).forEach(function (elem) {
+                               options.model.Properties && Object.keys(options.model.Properties).forEach(function (elem) {
 
                                     if (!elem.startsWith("_") && elem != "uid" && elem != "parent") {
                                         if (typeof (options.model.Properties[elem]) == "string" || options.model.Properties[elem] == null) {
