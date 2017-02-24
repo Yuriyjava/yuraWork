@@ -13,22 +13,10 @@ define(["resurces/source.js"], function (JSsource) {
 
         });
 
-        var conroll = JSsource.getControlFromId(formId),
-            editorControll = [],
-            editorControllNumbers = 1;
+        var controlls = JSsource.getControlFromId(formId),
+            designerControlls = Object.keys(controlls);
 
-        Object.keys(conroll).forEach(function (elem) {
 
-            if (conroll[elem].length) {
-
-                editorControll = conroll[elem];
-                if (typeof conroll[elem][0] != "string") {
-                    editorControllNumbers = conroll[elem].length;
-
-                }
-            }
-
-        });
 
         var dataGrid = new kendo.data.DataSource({
             data: dataEditDesigner,
@@ -110,56 +98,66 @@ define(["resurces/source.js"], function (JSsource) {
             },
         });
 
-        var designerConrtolls = [];
-        if (editorControllNumbers == 1) {
-            editorControll.forEach(function (controllElem) {
+
+        function getSelectedConrtoll(controllArr) {
+            var arrConrtoll = [];
+            controllArr.forEach(function (controllElem) {
                 dataEditDesigner.forEach(function (elem) {
                     if (elem.FieldId == controllElem) {
-                        designerConrtolls.push(elem);
+                        arrConrtoll.push(elem);
                     }
-
                 });
-
             });
+            return arrConrtoll;
 
         }
-        var dataList2 = new kendo.data.DataSource({
-            data: designerConrtolls,
-            autoSync: false,
-            schema: {
-                model: {
-                    id: "MyIdField",
-                    fields: {
 
-                        FieldId: {
-                            validation: {
-                                required: true
-                            }
-                        },
-                        FieldName: {
-                            validation: {
-                                required: true
-                            }
-                        },
-                        FieldType: {
-                            validation: {
-                                required: true
-                            }
-                        },
-                        Prefix: {
-                            validation: {
-                                required: true
-                            }
-                        },
-                        Fixed: {
-                            validation: {
-                                required: true
+        var selectedConrtoll = [];
+        var dataListArr = [];
+
+        for (var i = 0; i < 3; i++) {
+            var data = new kendo.data.DataSource({
+                data: selectedConrtoll,
+                autoSync: false,
+                schema: {
+                    model: {
+                        id: "MyIdField",
+                        fields: {
+
+                            FieldId: {
+                                validation: {
+                                    required: true
+                                }
+                            },
+                            FieldName: {
+                                validation: {
+                                    required: true
+                                }
+                            },
+                            FieldType: {
+                                validation: {
+                                    required: true
+                                }
+                            },
+                            Prefix: {
+                                validation: {
+                                    required: true
+                                }
+                            },
+                            Fixed: {
+                                validation: {
+                                    required: true
+                                }
                             }
                         }
                     }
-                }
-            },
-        });
+                },
+            });
+            dataListArr.push(data);
+        }
+
+
+
 
         var self = this;
 
@@ -168,7 +166,7 @@ define(["resurces/source.js"], function (JSsource) {
         self.view = new kendo.View("editDesigner", {
 
             show: function () {
-                this.grid = $("#gridProps").kendoGrid({
+                self.grid = $("#gridProps").kendoGrid({
 
                     columns: [
                         {
@@ -187,7 +185,11 @@ define(["resurces/source.js"], function (JSsource) {
                         {
                             field: "FieldType",
                             title: "Field Type",
-
+                            editor: function (container, options) {
+                                if (options.model.FieldType) {
+                                    var input = $("<input class='k-input k-textbox'/>").attr("name", "Properties." + elem).appendTo(container);
+                                }
+                            }
                                 },
                         {
                             field: "Prefix",
@@ -201,7 +203,7 @@ define(["resurces/source.js"], function (JSsource) {
                         },
                         {
                             field: "Fixed",
-                            title: "Fixed"
+                            title: "Fixed",
 
                                 },
                         {
@@ -219,7 +221,7 @@ define(["resurces/source.js"], function (JSsource) {
                                         propsPopup(options.model.Properties[arrField]);
                                     }
                                 });
-                               options.model.Properties && Object.keys(options.model.Properties).forEach(function (elem) {
+                                options.model.Properties && Object.keys(options.model.Properties).forEach(function (elem) {
 
                                     if (!elem.startsWith("_") && elem != "uid" && elem != "parent") {
                                         if (typeof (options.model.Properties[elem]) == "string" || options.model.Properties[elem] == null) {
@@ -262,7 +264,7 @@ define(["resurces/source.js"], function (JSsource) {
                     toolbar: "<span><b>Shema & Custom & System</b></br><a class='k-button k-button-icontext k-grid-add' href='\\#'>addNew</a></span>",
                     editable: {
                         mode: "popup",
-                        // tempate: kendo.template($("#popup-editor").html())
+
                     },
                     height: 400,
 
@@ -271,7 +273,7 @@ define(["resurces/source.js"], function (JSsource) {
 
                 function propsPopup(data) {
 
-                    console.log(data);
+
                     $("<div id='propsPopupWindow'></div>")
                         .appendTo("body").kendoWindow({
                             height: 400,
@@ -365,17 +367,50 @@ define(["resurces/source.js"], function (JSsource) {
 
                 };
 
-
-                this.list = $("#list_propsToDrag").kendoListView({
+                self.dropDown = $("#controllsDropDown").kendoDropDownList({
+                    dataSource: designerControlls,
+                    optionLabel: "--Select controll--",
+                    change: function (e) {
+                        dataListArr.forEach(function (elem) {
+                            elem.data([]);
+                        });
+                        if (e.sender._old) {
+                            if (typeof controlls[e.sender._old][0] == "string" || controlls[e.sender._old].length == 0) {
+                                dataListArr[0].data(getSelectedConrtoll(controlls[e.sender._old]));
+                            } else {
+                                controlls[e.sender._old].forEach(function (controllArr, index) {
+                                    dataListArr[index].data(getSelectedConrtoll(controllArr));
+                                });
+                            }
+                        }
+                    }
+                });
+                self.list = $("#list_propsToDrag").kendoListView({
                     editable: true,
                     dataSource: dataList,
                     selectable: true,
                     template: kendo.template($("#listTemplateProps").html()),
                 }).data("kendoListView");
 
-                this.list2 = $("#list_propsToSave").kendoListView({
+                self.list2 = $("#list_propsToSave").kendoListView({
                     editable: true,
-                    dataSource: dataList2,
+                    dataSource: dataListArr[0],
+                    selectable: true,
+                    template: kendo.template($("#listTemplate2").html()),
+
+
+                }).data("kendoListView");
+                self.list3 = $("#list_propsToSave_2").kendoListView({
+                    editable: true,
+                    dataSource: dataListArr[1],
+                    selectable: true,
+                    template: kendo.template($("#listTemplate2").html()),
+
+
+                }).data("kendoListView");
+                self.list4 = $("#list_propsToSave_3").kendoListView({
+                    editable: true,
+                    dataSource: dataListArr[2],
                     selectable: true,
                     template: kendo.template($("#listTemplate2").html()),
 
@@ -384,30 +419,76 @@ define(["resurces/source.js"], function (JSsource) {
 
                 $("#list_propsToDrag").kendoSortable({
                     filter: ">div",
-                    connectWith: "#list_propsToSave",
+                    connectWith: ".listToSave"
 
                 });
-
-
-                $("#list_propsToSave").kendoSortable({
-                    filter: ">div",
-
+                $(".listToSave").kendoSortable({
+                    connectWith: ".listToSave",
                     change: function (e) {
-                        console.log(e);
-                        if (e.action != "sort") {
-                            var newIndex = e.newIndex,
-                                dataItem = dataList.getByUid(e.item.data("uid"));
-                            dataList2.insert(newIndex, dataItem);
+                        var listIndex = $(".listToSave").index(this.element),
+                            arrElems = $(e.sender.element).data("kendoSortable").items(),
+                            arrControlsElems = [];
 
-                        } else {
-                            var newIndex = e.newIndex,
-                                dataItem = dataList2.getByUid(e.item.data("uid"));
-                            dataList2.remove(dataItem);
-                            dataList2.insert(newIndex, dataItem);
+                        for (var i = 0; i < arrElems.length; i++) {
+
+                            dataEditDesigner.forEach(function (elem) {
+                                if (elem.FieldId == arrElems[i].outerText.split(",")[0]) {
+                                    arrControlsElems.push(elem);
+                                }
+                            });
                         }
-
+                        dataListArr[listIndex] = arrControlsElems;
+                        console.log("dataListArr" + listIndex);
+                        console.log(dataListArr[listIndex]);
                     }
                 });
+
+
+                /*   $("#list_propsToSave").kendoSortable({
+                         filter: ">div",
+
+                         change: function (e) {
+
+                             if (e.action != "sort") {
+                                 var newIndex = e.newIndex,
+                                     dataItem = dataList.getByUid(e.item.data("uid"));
+                                 dataList2.insert(newIndex, dataItem);
+
+                             } else {
+                                 var newIndex = e.newIndex,
+                                     dataItem = dataList2.getByUid(e.item.data("uid"));
+                                 dataList2.remove(dataItem);
+                                 dataList2.insert(newIndex, dataItem);
+                             }
+
+                         }
+                     });
+                      $("#list_propsToSave2").kendoSortable({
+                         filter: ">div",
+
+                         change: function (e) {
+
+                             if (e.action != "sort") {
+                               
+                             } else {
+                                
+                             }
+
+                         }
+                     });
+                      $("#list_propsToSave3").kendoSortable({
+                         filter: ">div",
+
+                         change: function (e) {
+
+                             if (e.action != "sort") {
+                              
+                             } else {
+                                
+                             }
+
+                         }
+                     });*/
             }
         });
 

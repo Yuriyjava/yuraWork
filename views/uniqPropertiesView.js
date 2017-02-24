@@ -43,8 +43,6 @@ define(["resurces/controls.js"], function (JSControls) {
 
     return function (fieldTypeList) {
         var self = this;
-        console.log(fieldTypeList);
-
         self.view = new kendo.View("uniqProperties", {
             show: function () {
                 this.grid = $("#grid_uniqProperties").kendoGrid({

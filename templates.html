@@ -37,14 +37,21 @@
 </script>
 <script id="editDesigner" type="text/x-kendo-template">
     <div>editDesigner</div>
-
-    <div style="float: left; width: 300px; height:400px; margin: 5px; overflow: auto;">
-        <div id="list_propsToSave" style="min-height: 400px"></div>
+    <div id="controllsDropDown"></div>
+    <div>
+    <div class="to-drop"><span>column 1</span>
+        <div id="list_propsToSave" class="listToSave" style="min-height: 400px"></div>
     </div>
-    <div style="width: 300px; height:400px; margin: 5px; overflow: auto;">
+    <div class="to-drop" ><span>column 2</span>
+        <div id="list_propsToSave_2" class="listToSave" style="min-height: 400px"></div>
+    </div>
+    <div class="to-drop" ><span>column 3</span>
+        <div id="list_propsToSave_3" class="listToSave" style="min-height: 400px"></div>
+    </div>
+    <div class="to-drag" >
         <div id="list_propsToDrag"></div>
     </div>
-
+</div>
     <div id="gridProps"></div>
 
 </script>
