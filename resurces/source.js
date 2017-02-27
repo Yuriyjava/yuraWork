@@ -1,5 +1,5 @@
 define({
-    designers: [
+    designObj: [
         {
             "Id": "558a9c7a-d3c8-40ae-85b0-922fd37d2220",
             "FormId": "Soooome Schema",
@@ -2362,8 +2362,24 @@ define({
             }
 }
 ],
+    designers: [],
+    getDesignersObj: function () {
 
+
+        if (localStorage.designers) {
+            this.designers = JSON.parse(localStorage.designers);
+        } else {
+            localStorage.designers = JSON.stringify(this.designObj);
+            this.designers = JSON.parse(localStorage.designers);
+        }
+        if (localStorage.designers.length == 0) {
+            localStorage.clear();
+        }
+
+    },
     getDesignersArray: function () {
+        this.getDesignersObj();
+        
         var designersArray = [];
         this.designers.forEach(function (elem, index, arr) {
 
@@ -2375,6 +2391,7 @@ define({
         return designersArray;
     },
     getDataFromId: function (formId) {
+        this.getDesignersObj();
         var i = 0;
         while (this.designers[i].FormId != formId) {
             i++;
@@ -2400,10 +2417,15 @@ define({
     },
 
     getControlFromId: function (formId) {
+        this.getDesignersObj();
         var i = 0;
         while (this.designers[i].FormId != formId) {
             i++;
         };
         return this.designers[i].Control;
+    },
+    setControlFromId: function(controll){
+        
+        
     }
 });

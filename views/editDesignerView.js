@@ -4,6 +4,7 @@ define(["resurces/source.js"], function (JSsource) {
 
         var dataEditDesigner = JSsource.getDataFromId(formId);
 
+        console.log(dataEditDesigner);
         var prefixArr = [];
         dataEditDesigner.forEach(function (elem, index, arr) {
 
@@ -373,6 +374,8 @@ define(["resurces/source.js"], function (JSsource) {
                     change: function (e) {
                         dataListArr.forEach(function (elem) {
                             elem.data([]);
+                            console.log(elem);
+                            $(".listToSave").data("kendoListView").refresh();
                         });
                         if (e.sender._old) {
                             if (typeof controlls[e.sender._old][0] == "string" || controlls[e.sender._old].length == 0) {
@@ -397,24 +400,30 @@ define(["resurces/source.js"], function (JSsource) {
                     dataSource: dataListArr[0],
                     selectable: true,
                     template: kendo.template($("#listTemplate2").html()),
-
-
+                    remove: function (e) {
+                           dataList.add(e.model);
+                    }
                 }).data("kendoListView");
+
                 self.list3 = $("#list_propsToSave_2").kendoListView({
                     editable: true,
                     dataSource: dataListArr[1],
                     selectable: true,
                     template: kendo.template($("#listTemplate2").html()),
-
-
+                     remove: function (e) {
+                      
+                         dataList.add(e.model);
+                    }
                 }).data("kendoListView");
+                
                 self.list4 = $("#list_propsToSave_3").kendoListView({
                     editable: true,
                     dataSource: dataListArr[2],
                     selectable: true,
                     template: kendo.template($("#listTemplate2").html()),
-
-
+                     remove: function (e) {                       
+                         dataList.add(e.model);
+                    }
                 }).data("kendoListView");
 
                 $("#list_propsToDrag").kendoSortable({
@@ -423,6 +432,7 @@ define(["resurces/source.js"], function (JSsource) {
 
                 });
                 $(".listToSave").kendoSortable({
+                    filter: ">div",
                     connectWith: ".listToSave",
                     change: function (e) {
                         var listIndex = $(".listToSave").index(this.element),
@@ -430,16 +440,17 @@ define(["resurces/source.js"], function (JSsource) {
                             arrControlsElems = [];
 
                         for (var i = 0; i < arrElems.length; i++) {
-
                             dataEditDesigner.forEach(function (elem) {
-                                if (elem.FieldId == arrElems[i].outerText.split(",")[0]) {
+                                var splitArr = arrElems[i].outerText.split(", ");
+                                if (elem.FieldId == splitArr[0] && elem.Prefix == splitArr[2]) {
                                     arrControlsElems.push(elem);
                                 }
                             });
                         }
-                        dataListArr[listIndex] = arrControlsElems;
-                        console.log("dataListArr" + listIndex);
-                        console.log(dataListArr[listIndex]);
+
+                        dataListArr[listIndex].data(arrControlsElems);
+                       
+
                     }
                 });
 
