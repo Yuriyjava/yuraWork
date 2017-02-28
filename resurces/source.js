@@ -2424,8 +2424,15 @@ define({
         };
         return this.designers[i].Control;
     },
-    setControlFromId: function(controll){
-        
-        
+    
+    setControlFromId: function(controll, formId){
+          this.getDesignersObj();
+        var i = 0;
+        while (this.designers[i].FormId != formId) {
+            i++;
+        };
+
+        this.designers[i].Control=controll;
+        localStorage.designers = JSON.stringify(this.designers);
     }
 });

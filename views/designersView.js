@@ -49,18 +49,32 @@ define(["resurces/source.js"], function (JSsource) {
                                 },
                         {
                             command: [{
-                                name: "edit",
-                                click: function (e) {
-                                    e.preventDefault();
-                                    var tr = $(e.target).closest("tr");  
-                                    var data = this.dataItem(tr);
-                                    JSsource.getDataFromId(data.formId);
-                                    self.view.trigger("edit", {
-                                        data: data.formId
-                                    });
+                                    name: "edit Designer",
+                                    click: function (e) {
+                                        e.preventDefault();
+                                        var tr = $(e.target).closest("tr");
+                                        var data = this.dataItem(tr);
+                                        JSsource.getDataFromId(data.formId);
+                                        self.view.trigger("editDesigner", {
+                                            data: data.formId
+                                        });
 
-                                }
-                            }]
+                                    }
+                            },
+                                {
+                                    name: "edit Controls List",
+                                    click: function (e) {
+                                        e.preventDefault();
+                                        var tr = $(e.target).closest("tr");
+                                        var data = this.dataItem(tr);
+                                        JSsource.getDataFromId(data.formId);
+                                        self.view.trigger("editControlsList", {
+                                            data: data.formId
+                                        });
+
+                                    }
+                            }
+                                     ]
                         }],
                     dataSource: designersDataSource,
                     height: 600,

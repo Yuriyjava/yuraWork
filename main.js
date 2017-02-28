@@ -5,8 +5,9 @@ require([
 "views/uniqPropertiesView.js",
 "views/fieldTypeListView.js", 
 "views/designersView.js",
-"views/editDesignerView.js"
-], function (Templates, BaseFieldsView, PropertiesView, UniqPropertiesView, FieldTypeListView, designersView, editDesignerView) {
+"views/editDesignerView.js",
+"views/editControlsList.js"
+], function (Templates, BaseFieldsView, PropertiesView, UniqPropertiesView, FieldTypeListView, designersView, editDesignerView, editControlsListView) {
     var div = document.createElement('div');
     div.innerHTML = Templates;
     document.body.appendChild(div);
@@ -19,10 +20,12 @@ require([
 
     var designers = new designersView();
 
-    designers.view.bind("edit", function (e) {
+    designers.view.bind("editDesigner", function (e) {
         router.navigate("/editDesigner?formId=" + e.data);
-    })
-
+    });
+designers.view.bind("editControlsList", function (e) {
+        router.navigate("/editControlsList?formId=" + e.data);
+    });
 
     var fieldTypeList = new FieldTypeListView({
         change: function (o) {
@@ -73,6 +76,14 @@ require([
         $("#grid").empty();
         var editDesigner = new editDesignerView(params.formId);
         layout.showIn("#forView", editDesigner.view);
+
+    });
+    router.route("/editControlsList", function (params) {
+        $("#forView").empty();
+        $("#list").empty();
+        $("#grid").empty();
+        var editControlsList = new editControlsListView(params.formId);
+        layout.showIn("#forView", editControlsList.view);
 
     });
 
