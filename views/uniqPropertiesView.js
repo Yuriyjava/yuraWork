@@ -1,4 +1,4 @@
-define(["resurces/controls.js"], function (JSControls) {
+define(["resurces/controls.js", "modules/props.js"], function (JSControls, JSProps) {
 
     var typeArray = JSControls.typeArray;
 
@@ -85,7 +85,7 @@ define(["resurces/controls.js"], function (JSControls) {
                         } else {
                             var observable = new kendo.data.ObservableObject(self.view.grid.dataSource.data());
                             var newProp = observable.toJSON();
-                            addPropeties(typeToAdd, newProp);
+                            JSProps.addPropeties(typeToAdd, newProp);
                         }
                     },
                     saveChanges: function (e) {
@@ -93,7 +93,7 @@ define(["resurces/controls.js"], function (JSControls) {
                         var observable = new kendo.data.ObservableObject(self.view.grid.dataSource.data());
                         var newProp = observable.toJSON();
                         console.log(newProp);
-                        addPropeties(typeToAdd, newProp);
+                        JSProps.addPropeties(typeToAdd, newProp);
 
                     }
                 }).data("kendoGrid");

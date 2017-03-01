@@ -39,9 +39,7 @@ define(["resurces/controls.js"],function(JSControls){
         });
     }
     
-    
-    
-    
+  
     return{
   view: new kendo.View("baseFields", {
         show: function () {
