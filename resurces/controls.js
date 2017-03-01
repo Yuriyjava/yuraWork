@@ -77,10 +77,6 @@ define({
 }, {
             "FieldType": "Number",
             "Properties": [{
-                "field": "yuiui",
-                "description": "yuiyui",
-                "type": "string"
-    }, {
                 "field": "MaxDigits",
                 "description": "MaxDigits description",
                 "type": "number"
