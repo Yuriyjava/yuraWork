@@ -260,12 +260,12 @@ define({
 ],
     init: function () {
         var props = [];
-        localStorage.clear();
-        if (localStorage.properties) {
-           
+
+        if (localStorage.properties && Array.isArray(localStorage.properties)) {
+
             props = JSON.parse(localStorage.properties);
         } else {
-            localStorage.properties = JSON.stringify(properties);
+            localStorage.properties = JSON.stringify(this.properties);
             props = JSON.parse(localStorage.properties);
         }
 
