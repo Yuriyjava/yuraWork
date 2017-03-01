@@ -21,7 +21,7 @@ define(["resurces/source.js", "modules/props.js"], function (JSsource, JSprops) 
             data: dataEditDesigner,
             autoSync: false,
             schema: {
-                model: {
+               /* model: {
                     id: "FieldId",
                     fields: {
                         FieldId: {
@@ -47,11 +47,11 @@ define(["resurces/source.js", "modules/props.js"], function (JSsource, JSprops) 
                         Fixed: {
                             type: "boolean"
                         },
-                        Properties:{
-                        defaultValue: {}
+                        Properties: {
+                            defaultValue: {}
+                        }
                     }
-                    }
-                }
+                }*/
             },
 
 
@@ -91,27 +91,27 @@ define(["resurces/source.js", "modules/props.js"], function (JSsource, JSprops) 
                         {
                             field: "FieldType",
                             title: "Field Type",
-                            editor: function (container, options) {
+                            /* editor: function (container, options) {
 
-                                if (options.model.FieldType) {
-                                    var input = $("<input class='k-input k-textbox' name='FieldType' disabled/>").appendTo(container[0]).css("background-color", "gray");
-                                } else {
-                                    $(container[0]).kendoDropDownList({
-                                        dataSource: fieldTypeList,
-                                        valuePrimitive: true,
-                                        optionLabel: "--Select Value--",
-                                        template: '<span>#: name #</span>',
-                                        valueTemplate: '<span>#: name #</span>',
-                                        change: function (e) {
-                                            var value = this.value().name;
-                                            var valObj = JSprops.getAllPropertiesOfFieldType(value);
-                                            console.log(valObj);
-                                            options.model.Properties = valObj;
-                                            self.grid.trigger("edit");
-                                        }
-                                    });
-                                }
-                            }
+                                 if (options.model.FieldType) {
+                                     var input = $("<input class='k-input k-textbox' name='FieldType' disabled/>").appendTo(container[0]).css("background-color", "gray");
+                                 } else {
+                                     $(container[0]).kendoDropDownList({
+                                         dataSource: fieldTypeList,
+                                         valuePrimitive: true,
+                                         optionLabel: "--Select Value--",
+                                         template: '<span>#: name #</span>',
+                                         valueTemplate: '<span>#: name #</span>',
+                                         change: function (e) {
+                                             var value = this.value().name;
+                                             var valObj = JSprops.getAllPropertiesOfFieldType(value);
+                                             console.log(valObj);
+                                             options.model.Properties = valObj;
+                                             self.grid.trigger("edit");
+                                         }
+                                     });
+                                 }
+                             }*/
                                 },
                         {
                             field: "Prefix",
@@ -131,7 +131,7 @@ define(["resurces/source.js", "modules/props.js"], function (JSsource, JSprops) 
                         {
                             field: "Properties",
                             hidden: true,
-                            editor: function (container, options) {
+                            /*editor: function (container, options) {
                                 $(container).css("max-height", "200px");
                                 $(container).css("overflow", "auto");
                                 $(container).on("click", function (e) {
@@ -171,7 +171,7 @@ define(["resurces/source.js", "modules/props.js"], function (JSsource, JSprops) 
                                         }
                                     }
                                 });
-                            }
+                            }*/
                         },
                         {
                             command: ["edit", "destroy"]
@@ -189,10 +189,30 @@ define(["resurces/source.js", "modules/props.js"], function (JSsource, JSprops) 
 
                     },
                     height: 600,
+                    edit: function (e) {
+                      
+                        e.model.bind("change", function (data) {
+                        data.field === "FieldType" && bind();
+                        });
 
+                        var bind = function () {
+                           e.container.html(generateTemplate(e.model.FieldType, e.model));
+                            kendo.unbind(e.container, e.model);
+                            kendo.bind(e.container, e.model);
+                        }
+                        bind();
+                    }
 
                 }).data("kendoGrid");
 
+                function generateTemplate(fieldType, model){
+                    console.log(fieldType);
+                    console.log(model);
+                    return "hello";
+                    
+                    
+                }
+                
                 function propsPopup(data) {
 
 

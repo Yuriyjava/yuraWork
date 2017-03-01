@@ -261,6 +261,7 @@ define({
     init: function () {
         var props = [];
         if (localStorage.properties) {
+            console.log(Object.keys(localStorage.properties).length)
             props = JSON.parse(localStorage.properties);
         } else {
             localStorage.properties = JSON.stringify(properties);
