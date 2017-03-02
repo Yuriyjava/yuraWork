@@ -3,12 +3,20 @@ define(["resurces/source.js", "modules/props.js", "resurces/controls.js"],
         return function (formId) {
             JSprops.init();
             var dataEditDesigner = JSsource.getDataFromId(formId),
-                fieldTypeList = JSprops.getFieldTypeList(),
+                fieldTypeData = JSprops.getFieldTypeList(),
                 baseFields = JSControls.controls.baseFields,
-                baseProperties = JSControls.controls.baseProperties;
+                baseProperties = JSControls.controls.baseProperties,
+                prefixArr = [],
+                fieldTypeList = [];
+
+            fieldTypeData.forEach(function (elem) {
+                if (fieldTypeList.indexOf(elem.name) < 0) {
+                    fieldTypeList.push(elem.name);
+                }
+            });
 
 
-            var prefixArr = [];
+
             dataEditDesigner.forEach(function (elem, index, arr) {
 
                 if (prefixArr.indexOf(elem.Prefix) < 0) {
@@ -57,7 +65,7 @@ define(["resurces/source.js", "modules/props.js", "resurces/controls.js"],
 
             });
 
-             var self = this;
+            var self = this;
 
             self.view = new kendo.View("editControlsList", {
 
@@ -100,7 +108,7 @@ define(["resurces/source.js", "modules/props.js", "resurces/controls.js"],
                             {
                                 field: "Properties",
                                 hidden: true,
-                               
+
                         },
                             {
                                 command: ["edit", "destroy"]
@@ -121,13 +129,28 @@ define(["resurces/source.js", "modules/props.js", "resurces/controls.js"],
                         edit: function (e) {
 
                             e.model.bind("change", function (data) {
+
                                 data.field === "FieldType" && bind();
+
                             });
 
                             var bind = function () {
+
                                 e.container.html(generateTemplate(e.model, e.model.isNew()));
+                                e.container.css("min-width", "400px");
                                 kendo.unbind(e.container, e.model);
                                 kendo.bind(e.container, e.model);
+                                $(e.container).on("click", function (event) {
+                                    var $t = $(event.target),
+                                        arrButton = $t.closest(".arrayButton"),
+                                        arrField = arrButton.length && arrButton.attr("data-field");
+                                    if (arrButton.length) {
+                                        console.log(e.model);
+                                        console.log(e.model.Properties.Choices)
+                                        console.log(arrField);
+                                        propsPopup(e.model.Properties[arrField]);
+                                    }
+                                });
                             }
                             bind();
                         }
@@ -135,33 +158,51 @@ define(["resurces/source.js", "modules/props.js", "resurces/controls.js"],
                     }).data("kendoGrid");
 
                     function generateTemplate(objModel, isNew) {
-                        
+
 
                         var docFragment = document.createDocumentFragment(),
                             templates = {
-                                "object": $("#stringTemplate").html(),
-                                "boolean":$("#stringTemplate").html(),
+                                "object": $("#objectTemplate").html(),
+                                "boolean": $("#booleanTemplate").html(),
                                 "string": $("#stringTemplate").html(),
-                                "number": $("#stringTemplate").html()
+                                "number": $("#numberTemplate").html(),
+                                "dropDown": $("#dropDownTemplate").html()
                             },
-                            propsTemplArr = [].concat(baseProperties).concat(JSprops.getUniqProps(objModel["FieldType"]).Properties),
-                            fieldTemplArr=[].concat(baseFields);
+                            propsTemplArr = [].concat(baseProperties),
+                            pr = objModel["FieldType"] ? JSprops.getUniqProps(objModel["FieldType"]).Properties : [],
+                            fieldTemplArr = [].concat(baseFields);
+                        propsTemplArr = propsTemplArr.concat(pr);
 
-                            console.log(propsTemplArr);
-                        console.log(fieldTemplArr);
-                        
-                       fieldTemplArr.forEach(function (prop){ 
-                        if (prop.field!=="Properties") {
-                            console.log(prop)
-                            var tpl = templates[prop.type],
-                                html = kendo.template(tpl)({
-                                    prefix: "",
-                                    config: prop,
-                                    disabled: prop.field === "FieldType" && !isNew
+                        fieldTemplArr.forEach(function (prop) {
+                            if (prop.field !== "Properties") {
+                                var tpl = prop.field === "FieldType" ? templates.dropDown : templates[prop.type],
+                                    html = kendo.template(tpl)({
+                                        prefix: "",
+                                        config: prop,
+                                        disabled: !isNew,
+                                        list: fieldTypeList
+                                    });
+
+                                $(docFragment).append($(html));
+                            } else {
+                                $(docFragment).append("<div style=' max-height:200px; overflow:auto'><b>Properties:</b></div>");
+                                var div = $("<div style='float: left; min-width:300px;max-height:200px; overflow:auto'></div>");
+                                propsTemplArr.forEach(function (prop) {
+                                    var tpl = prop.field === "FieldType" ? templates.dropDown : templates[prop.type],
+                                        html = kendo.template(tpl)({
+                                            prefix: "Properties.",
+                                            config: prop,
+                                            disabled: !isNew,
+                                            list: fieldTypeList
+                                        });
+
+                                    $(div).append($(html));
+
+
                                 });
-                            debugger;
-                            $(docFragment).append($(html));
-                        }});
+                                $(docFragment).append(div)
+                            }
+                        });
 
                         return docFragment;
 
@@ -206,11 +247,11 @@ define(["resurces/source.js", "modules/props.js", "resurces/controls.js"],
                     };
 
 
-                    
-                    
-                    
-                    
-                    
+
+
+
+
+
                     function generateProperties(options) {
                         var container = document.createDocumentFragment();
                         $(container).css("max-height", "200px");

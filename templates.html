@@ -36,27 +36,27 @@
     <div id="grid_designers"></div>
 </script>
 <script id="editDesigner" type="text/x-kendo-template">
-    <div>editDesigner</div> 
-    <div class="edit-buttons"> 
-    <a class="k-button saveButton" href="\\#"><span class="k-icon k-i-check"></span> Save & exit</a> 
-    <a class="k-button cancellButton" href="\\#"><span class="k-icon k-i-cancel"></span> Cancel & exit</a> 
+    <div>editDesigner</div>
+    <div class="edit-buttons">
+        <a class="k-button saveButton" href="\\#"><span class="k-icon k-i-check"></span> Save & exit</a>
+        <a class="k-button cancellButton" href="\\#"><span class="k-icon k-i-cancel"></span> Cancel & exit</a>
     </div>
     <div id="controllsDropDown"></div>
     <div>
-    <div class="to-drop"><span>column 1</span>
-        <div id="list_propsToSave" class="listToSave" style="min-height: 400px"></div>
+        <div class="to-drop"><span>column 1</span>
+            <div id="list_propsToSave" class="listToSave" style="min-height: 400px"></div>
+        </div>
+        <div class="to-drop"><span>column 2</span>
+            <div id="list_propsToSave_2" class="listToSave" style="min-height: 400px"></div>
+        </div>
+        <div class="to-drop"><span>column 3</span>
+            <div id="list_propsToSave_3" class="listToSave" style="min-height: 400px"></div>
+        </div>
+        <div class="to-drag">
+            <div id="list_propsToDrag"></div>
+        </div>
     </div>
-    <div class="to-drop" ><span>column 2</span>
-        <div id="list_propsToSave_2" class="listToSave" style="min-height: 400px"></div>
-    </div>
-    <div class="to-drop" ><span>column 3</span>
-        <div id="list_propsToSave_3" class="listToSave" style="min-height: 400px"></div>
-    </div>
-    <div class="to-drag" >
-        <div id="list_propsToDrag"></div>
-    </div>
-</div>
-  <div id="gridProps"></div>
+    <div id="gridProps"></div>
 
 </script>
 <script id="listTemplateProps" type="text/x-kendo-tmpl">
@@ -97,66 +97,111 @@
 <script id="propsPopupWindowTemplate" type="text/x-kendo-tmpl">
     <div id="propsContent">
 
-</div>
-
-<div id="controllButtons">
-
-    <div class="product-view k-widget">
-        <dl> <dt>add new choice</dt>
-            <dd>
-                <input type="text" id="inputNewChoise" class="k-textbox" data-bind="value:value" name="value" required="required" validationMessage="required" /> 
-                <span data-for="value" class="k-invalid-msg"></span> </dd>
-            <div class="edit-buttons"> 
-            <a class="k-button k-update-button" href="\\#">
-            <span class="k-icon k-i-check"></span></a> 
-            <a class="k-button k-cancel-button" href="\\#">
-            <span class="k-icon k-i-cancel"></span></a> 
-            </div>
     </div>
 
-    <div class="k-edit-buttons k-state-default">
-        <a role="button" class="k-button k-button-icontext k-primary saveButton" href="\\#">
-            <span class="k-icon k-i-check"></span> Update&Qite
-        </a>
+    <div id="controllButtons">
 
-       
+        <div class="product-view k-widget">
+            <dl> <dt>add new choice</dt>
+                <dd>
+                    <input type="text" id="inputNewChoise" class="k-textbox" data-bind="value:value" name="value" required="required" validationMessage="required" />
+                    <span data-for="value" class="k-invalid-msg"></span> </dd>
+                <div class="edit-buttons">
+                    <a class="k-button k-update-button" href="\\#">
+                        <span class="k-icon k-i-check"></span></a>
+                    <a class="k-button k-cancel-button" href="\\#">
+                        <span class="k-icon k-i-cancel"></span></a>
+                </div>
+        </div>
 
-    </div>
+        <div class="k-edit-buttons k-state-default">
+            <a role="button" class="k-button k-button-icontext k-primary saveButton" href="\\#">
+                <span class="k-icon k-i-check"></span> Update&Qite
+            </a>
+
+
+
+        </div>
 </script>
 <script id="editControlsList" type="text/x-kendo-template">
-    <div>editDesigner</div> 
-    <div class="edit-buttons"> 
-    <a class="k-button saveButton" href="\\#"><span class="k-icon k-i-check"></span> Save & exit</a> 
-    <a class="k-button cancellButton" href="\\#"><span class="k-icon k-i-cancel"></span> Cancel & exit</a> 
+    <div>editDesigner</div>
+    <div class="edit-buttons">
+        <a class="k-button saveButton" href="\\#"><span class="k-icon k-i-check"></span> Save & exit</a>
+        <a class="k-button cancellButton" href="\\#"><span class="k-icon k-i-cancel"></span> Cancel & exit</a>
     </div>
-        <div id="gridProps"></div>
+    <div id="gridProps"></div>
 
 </script>
 <script id="stringTemplate" type="text/x-kendo-template">
-#
-var label = data.config.field,
-    descr = data.config.description;
-#
-<div>
-<label class='k-edit-label' style='width:60%; text-align:left;'>#:label#</label>
-<input type="text" class="k-textbox" data-bind="value:#:label#" name="#:label#" required="required" validationMessage="required" />
-</div>
+    # var   pref = data.prefix,
+            label = data.config.field,
+            value = pref ? pref+data.config.field:data.config.field,
+            descr = data.config.description;
+             
+          
+    #
+  
+  
+        <label class='k-edit-label' style='width:60%; text-align:left; display:block; float:none'>#:label#<input type="text" class="k-textbox" data-bind="value:#:value#" name="#:value#" required="required" validationMessage="required"   /></label>
+        
+  
+
 </script>
 <script id="booleanTemplate" type="text/x-kendo-template">
-
+    # var    pref = data.prefix,
+            label = data.config.field,
+            value = pref ? pref+data.config.field:data.config.field,
+            descr = data.config.description; 
+    #
+  
+        <label class='k-edit-label' style='width:60%; text-align:left;display:block; float:none'>#:label#<input type="checkbox" data-bind="checked:#:value#" name="#:value#" /></label>
+   
 
 
 </script>
 <script id="numberTemplate" type="text/x-kendo-template">
-
+    # var 
+            pref = data.prefix,
+            label = data.config.field,
+            value = pref ? pref+data.config.field:data.config.field, 
+            descr = data.config.description; 
+        #
+   
+        <label class='k-edit-label' style='width:60%; text-align:left;display:block; float:none'>#:label#<input type="text" data-role="numerictextbox" data-type="number" data-bind="value:#:value#" name="#:value#" /></label>
+        
+ 
 
 
 </script>
-<script id="Template" type="text/x-kendo-template">
-
-
-
+<script id="objectTemplate" type="text/x-kendo-template">
+    # var   pref = data.prefix,
+            label = data.config.field,
+            value = pref ? pref+data.config.field:data.config.field, 
+            descr = data.config.description; #
+  
+        <label class='k-edit-label' style='width:60%; text-align:left; display:block; float:none'>#:label#<button style='width:50px; height=70px; float: right;' class='k-button arrayButton k-icon k-i-grid-layout' data-field="#:label#"></button></label>
+        
+   
 </script>
-
-
-
+<script id="dropDownTemplate" type="text/x-kendo-template">
+    # 
+    var     pref = data.prefix,
+            label = data.config.field,
+            value = pref ? pref+data.config.field:data.config.field, 
+            descr = data.config.description, 
+            disabled = data.disabled ? 'disabled' : '', 
+            fields = data.list;
+         
+    #
+   
+        <label class='k-edit-label' style='width:60%; text-align:left; display:block; float:none'>#:label#
+  
+<input data-role="dropdownlist"
+    data-value-primitive="true"
+    data-source='{data: #: JSON.stringify(fields) #}'
+    data-option-label="--Select Value--"
+    data-bind="value:#:value#"
+ #:disabled#/>
+    </label>
+  
+</script>
