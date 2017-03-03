@@ -47,3 +47,6 @@
      margin: 1px;
      overflow: auto;
  }
+ .edit-buttons{
+     float: none;
+ }
