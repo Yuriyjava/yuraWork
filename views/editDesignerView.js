@@ -52,7 +52,7 @@ define(["resurces/source.js"], function (JSsource) {
                         }
                     }
                 }
-            },
+            }
         });
 
 
@@ -108,7 +108,7 @@ define(["resurces/source.js"], function (JSsource) {
                             }
                         }
                     }
-                },
+                }
             });
             dataListArr.push(data);
         }
@@ -145,7 +145,7 @@ define(["resurces/source.js"], function (JSsource) {
                     editable: true,
                     dataSource: dataList,
                     selectable: true,
-                    template: kendo.template($("#listTemplateProps").html()),
+                    template: kendo.template($("#listTemplateProps").html())
                 }).data("kendoListView");
 
                 self.list2 = $("#list_propsToSave").kendoListView({

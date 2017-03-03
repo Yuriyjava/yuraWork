@@ -56,7 +56,7 @@
             <div id="list_propsToDrag"></div>
         </div>
     </div>
-    <div id="gridProps"></div>
+
 
 </script>
 <script id="listTemplateProps" type="text/x-kendo-tmpl">
@@ -142,7 +142,8 @@
     #
   
   
-        <label class='k-edit-label' style='width:60%; text-align:left; display:block; float:none'>#:label#<input type="text" class="k-textbox" data-bind="value:#:value#" name="#:value#" required="required" validationMessage="required"   /></label>
+        <label class='k-edit-label' style='width:60%; text-align:left; display:block; float:none'>#:label#
+            <input type="text" class="k-textbox" data-bind="value:#:value#" name="#:value#" required="required" validationMessage="required"   /></label>
         
   
 
@@ -179,7 +180,7 @@
             value = pref ? pref+data.config.field:data.config.field, 
             descr = data.config.description; #
   
-        <label class='k-edit-label' style='width:60%; text-align:left; display:block; float:none'>#:label#<button style='width:50px; height=70px; float: right;' class='k-button arrayButton k-icon k-i-grid-layout' data-field="#:label#"></button></label>
+        <label class='k-edit-label' style='width:60%; text-align:left; display:block; float:none'>#:label#<button style='width:50px; height:70px; float: right;' class='k-button arrayButton k-icon k-i-grid-layout' data-field="#:label#"></button></label>
         
    
 </script>
@@ -196,7 +197,8 @@
    
         <label class='k-edit-label' style='width:60%; text-align:left; display:block; float:none'>#:label#
   
-<input data-role="dropdownlist"
+<!--suppress XmlUnboundNsPrefix -->
+            <input data-role="dropdownlist"
     data-value-primitive="true"
     data-source='{data: #: JSON.stringify(fields) #}'
     data-option-label="--Select Value--"

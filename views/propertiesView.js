@@ -48,8 +48,8 @@ define(["resurces/controls.js"],function(JSControls){
                 toolbar: ["create"],
                 columns: [{
                         field: "field",
-                        title: "field",
-                    },
+                        title: "field"
+                },
 
                     {
                         field: "description",

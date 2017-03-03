@@ -14,10 +14,7 @@ define(["resurces/source.js", "modules/props.js", "resurces/controls.js"],
                     fieldTypeList.push(elem.name);
                 }
             });
-
-
-
-            dataEditDesigner.forEach(function (elem, index, arr) {
+            dataEditDesigner.forEach(function (elem) {
 
                 if (prefixArr.indexOf(elem.Prefix) < 0) {
                     prefixArr.push(elem.Prefix);
@@ -60,7 +57,7 @@ define(["resurces/source.js", "modules/props.js", "resurces/controls.js"],
                             }
                         }
                     }
-                },
+                }
 
 
             });
@@ -83,13 +80,13 @@ define(["resurces/source.js", "modules/props.js", "resurces/controls.js"],
 
                             {
                                 field: "FieldName",
-                                title: "Field Name",
+                                title: "Field Name"
 
-                                },
+                            },
                             {
                                 field: "FieldType",
-                                title: "Field Type",
-                                    },
+                                title: "Field Type"
+                            },
                             {
                                 field: "Prefix",
                                 title: "Prefix",
@@ -98,18 +95,18 @@ define(["resurces/source.js", "modules/props.js", "resurces/controls.js"],
                                         template: prefixFilter,
                                         showOperators: false
                                     }
-                                },
-                        },
+                                }
+                            },
                             {
                                 field: "Fixed",
-                                title: "Fixed",
+                                title: "Fixed"
 
-                                },
+                            },
                             {
                                 field: "Properties",
-                                hidden: true,
+                                hidden: true
 
-                        },
+                            },
                             {
                                 command: ["edit", "destroy"]
                         }],
@@ -122,7 +119,7 @@ define(["resurces/source.js", "modules/props.js", "resurces/controls.js"],
                         },
                         toolbar: "<span><b>Shema & Custom & System</b></br><a class='k-button k-button-icontext k-grid-add' href='\\#'>addNew</a></span>",
                         editable: {
-                            mode: "popup",
+                            mode: "popup"
 
                         },
                         height: 600,
@@ -145,13 +142,10 @@ define(["resurces/source.js", "modules/props.js", "resurces/controls.js"],
                                         arrButton = $t.closest(".arrayButton"),
                                         arrField = arrButton.length && arrButton.attr("data-field");
                                     if (arrButton.length) {
-                                        console.log(e.model);
-                                        console.log(e.model.Properties.Choices)
-                                        console.log(arrField);
                                         propsPopup(e.model.Properties[arrField]);
                                     }
                                 });
-                            }
+                            };
                             bind();
                         }
 
@@ -244,14 +238,7 @@ define(["resurces/source.js", "modules/props.js", "resurces/controls.js"],
                               }
                           });
                           return docFragment;*/
-                    };
-
-
-
-
-
-
-
+                    }
                     function generateProperties(options) {
                         var container = document.createDocumentFragment();
                         $(container).css("max-height", "200px");
@@ -285,10 +272,8 @@ define(["resurces/source.js", "modules/props.js", "resurces/controls.js"],
                                     {
                                         var input = $("<input class='k-input k-textbox'/>").attr("name", "Properties." + elem).appendTo(container);
                                     }
-                                };
-
-                            };
-
+                                }
+                            }
                         });
 
                         return container;
@@ -323,16 +308,18 @@ define(["resurces/source.js", "modules/props.js", "resurces/controls.js"],
 
                         });
 
+                        //noinspection JSJQueryEfficiency
                         var propertiesList = $("#propsContent").kendoListView({
 
                             dataSource: propertiesListData,
                             template: kendo.template($("#listPropsTemplate").html()),
-                            editable: true,
+                            editable: true
                         }).data("kendoListView");
 
 
 
 
+                        //noinspection JSJQueryEfficiency
                         $("#propsContent").kendoSortable({
                             filter: ">div"
                         });
@@ -347,17 +334,21 @@ define(["resurces/source.js", "modules/props.js", "resurces/controls.js"],
 
                             if (addButton.length) {
                                 e.preventDefault();
+                                //noinspection JSJQueryEfficiency
                                 if ($("#inputNewChoise").val()) {
 
+                                    //noinspection JSJQueryEfficiency
                                     propertiesList.dataSource.add({
                                         value: $("#inputNewChoise").val()
                                     });
+                                    //noinspection JSJQueryEfficiency
                                     $("#inputNewChoise").val("");
                                 }
 
                             }
                             if (cancelButton.length) {
                                 e.preventDefault();
+                                //noinspection JSJQueryEfficiency
                                 if ($("#inputNewChoise").val()) {
                                     $("#inputNewChoise").val("");
                                 }
@@ -370,16 +361,15 @@ define(["resurces/source.js", "modules/props.js", "resurces/controls.js"],
                             }
 
                         });
-                    };
-
+                    }
                     function prefixFilter(elem) {
 
                         elem.element.kendoDropDownList({
                             dataSource: prefixArr,
                             valuePrimitive: true,
-                            optionLabel: "--Select Value--",
+                            optionLabel: "--Select Value--"
                         });
-                    };
+                    }
                 }
             });
 

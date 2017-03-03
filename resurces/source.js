@@ -2395,22 +2395,23 @@ define({
         var i = 0;
         while (this.designers[i].FormId != formId) {
             i++;
-        };
-
+        }
         var obj = {
             shema: [],
             custom: [],
-            system: [],
+            system: []
         };
         obj = {
             shema: this.designers[i].Schema,
             custom: this.designers[i].Custom,
-            system: this.designers[i].System,
+            system: this.designers[i].System
         };
         if (obj.system) {
+            //noinspection UnnecessaryLocalVariableJS
             var objArr = obj.shema.concat(obj.custom, obj.system);
             return objArr;
         } else {
+            //noinspection UnnecessaryLocalVariableJS
             var objArr = obj.shema.concat(obj.custom);
             return objArr;
         }
@@ -2421,7 +2422,7 @@ define({
         var i = 0;
         while (this.designers[i].FormId != formId) {
             i++;
-        };
+        }
         return this.designers[i].Control;
     },
     
@@ -2430,8 +2431,7 @@ define({
         var i = 0;
         while (this.designers[i].FormId != formId) {
             i++;
-        };
-
+        }
         this.designers[i].Control=controll;
         localStorage.designers = JSON.stringify(this.designers);
     }

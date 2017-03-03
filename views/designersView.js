@@ -40,8 +40,8 @@ define(["resurces/source.js"], function (JSsource) {
                     columns: [
                         {
                             field: "formId",
-                            title: "Designer ID",
-                    },
+                            title: "Designer ID"
+                        },
 
                         {
                             field: "description",

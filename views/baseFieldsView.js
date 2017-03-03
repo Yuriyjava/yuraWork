@@ -48,7 +48,7 @@ define(["resurces/controls.js"],function(JSControls){
                 columns: [
                     {
                         field: "field",
-                        title: "field",
+                        title: "field"
                     },
 
                     {

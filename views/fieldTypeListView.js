@@ -15,7 +15,7 @@ define(["modules/props.js"], function (JSprops) {
                     template: kendo.template($("#listTemplate").html()),
                     editTemplate: kendo.template($("#listEditTemplate").html()),
                     change: function (e) {
-                        dataUniqProp = JSprops.getUniqProps($(this.select()).find("dd").text()).Properties;
+                        var dataUniqProp = JSprops.getUniqProps($(this.select()).find("dd").text()).Properties;
                         config && config.change && config.change({
                             data: dataUniqProp
                         });
