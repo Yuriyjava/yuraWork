@@ -136,35 +136,66 @@ define(["resurces/source.js", "modules/props.js", "resurces/controls.js"],
 
                                 e.container.html(generateTemplate(e.model, e.model.isNew(), baseFields, baseProperties, fieldTypeList));
                                 e.container.css("min-width", "400px");
-                                kendo.unbind(e.container, e.model);
-                                kendo.bind(e.container, e.model);
-                                $(e.container).on("click", function (event) {
+                                $(e.container).find("#propertiesEdit").off();
+                                $(e.container).find("#propertiesEdit").on("click", function (event) {
                                     var $t        = $(event.target),
                                         arrButton = $t.closest(".arrayButton"),
                                         arrField  = arrButton.length && arrButton.attr("data-field");
+
                                     if (arrButton.length) {
-                                        propsPopup(e.model.Properties[arrField]);
+                                        e.model.Properties[arrField] ? e.model.Properties[arrField] : e.model.Properties[arrField]=[];
+                                        e.model.Properties[arrField]=propsPopup(e.model.Properties[arrField]);
                                     }
                                 });
+                                kendo.unbind(e.container, e.model);
+                                kendo.bind(e.container, e.model);
+
                             };
                             bind();
-                        }
+                        },
+
 
                     }).data("kendoGrid");
 
 
                 },
                 init             : function () {
-                    console.log(self.view.element);
+
                     $(self.view.element).on("click", function (event) {
-                        console.log("click")
+
                         var $t              = $(event.target),
                             arrSaveButton   = $t.closest(".saveButton"),
                             arrCancelButton = $t.closest(".cancelButton");
+                        event.preventDefault();
                         if (arrSaveButton.length) {
-                            console.log("save");
+
+                            $('<div></div>').appendTo($("body")).kendoConfirm({
+                                content: "Save changes and exit?",
+                                messages:{
+                                    okText: "OK"
+                                }
+                            }).data("kendoConfirm").result.done(function()
+                            {
+                                JSsource.setDataFromId(self.grid.dataSource.data(), formId)
+
+                                document.location.href='#/designers';
+                            });
+
+
                         } else if (arrCancelButton.length) {
-                            console.log("exit");
+
+                            $('<div></div>').appendTo($("body")).kendoConfirm({
+                                content: "Do you accept exit without changes?",
+                                messages:{
+                                    okText: "OK"
+                                }
+                            }).data("kendoConfirm").result.done(function()
+                            {
+                                JSsource.setDataFromId(dataEditDesigner, formId);
+
+                                document.location.href='#/designers';
+                            });
+
                         }
 
                     });
@@ -190,9 +221,10 @@ define(["resurces/source.js", "modules/props.js", "resurces/controls.js"],
                 fieldTemplArr = [].concat(baseFields),
                 propsTemplArr = [].concat(baseProperties),
                 pr            = objModel["FieldType"] ? JSprops.getUniqProps(objModel["FieldType"]).Properties : [],
+                propsTemplArr = propsTemplArr.concat(pr),
                 buttons       = new kendo.template($("#buttonsBlock").html());
-            propsTemplArr = propsTemplArr.concat(pr),
-                $(docFragment).append(buttons);
+
+            $(docFragment).append(buttons);
             fieldTemplArr.forEach(function (prop) {
                 if (prop.field !== "Properties") {
                     var tpl  = prop.field === "FieldType" ? templates.dropDown : templates[prop.type],
@@ -206,7 +238,7 @@ define(["resurces/source.js", "modules/props.js", "resurces/controls.js"],
                     $(docFragment).append($(html));
                 } else {
                     $(docFragment).append("<div style=' max-height:200px; overflow:auto'><b>Properties:</b></div>");
-                    var div = $("<div style='float: left; min-width:300px;max-height:200px; overflow:auto'></div>");
+                    var div = $("<div id='propertiesEdit' style='float: left; min-width:300px;max-height:200px; overflow:auto'></div>");
                     propsTemplArr.forEach(function (prop) {
                         var tpl  = prop.field === "FieldType" ? templates.dropDown : templates[prop.type],
                             html = kendo.template(tpl)({
@@ -274,7 +306,7 @@ define(["resurces/source.js", "modules/props.js", "resurces/controls.js"],
                 var $t           = $(e.target),
                     addButton    = $t.closest(".k-update-button"),
                     cancelButton = $t.closest(".k-cancel-button"),
-                    saveButton   = $t.closest(".saveButton");
+                    saveChoicesButton   = $t.closest(".saveChoicesButton");
 
 
                 if (addButton.length) {
@@ -299,13 +331,14 @@ define(["resurces/source.js", "modules/props.js", "resurces/controls.js"],
                     }
 
                 }
-                if (saveButton.length) {
+                if (saveChoicesButton.length) {
                     e.preventDefault();
-                    console.log("save");
+
                     $("#propsPopupWindow").data("kendoWindow").close();
-                }
+                               }
 
             });
+            return propertiesList.dataSource.data();
         }
 
         function prefixFilter(elem, prefixArr) {

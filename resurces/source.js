@@ -2365,7 +2365,6 @@ define({
     designers: [],
     getDesignersObj: function () {
 
-
         if (localStorage.designers) {
             this.designers = JSON.parse(localStorage.designers);
         } else {
@@ -2426,13 +2425,49 @@ define({
         return this.designers[i].Control;
     },
     
-    setControlFromId: function(controll, formId){
+    setControlFromId: function(control, formId){
           this.getDesignersObj();
         var i = 0;
         while (this.designers[i].FormId != formId) {
             i++;
         }
-        this.designers[i].Control=controll;
+        console.log(control);
+        console.log(this.designers[i].Control);
+        this.designers[i].Control=control;
+       localStorage.designers = JSON.stringify(this.designers);
+        console.log(this.designers[i].Control);
+    },
+
+    setDataFromId: function(data, formId){
+        this.getDesignersObj();
+        var i = 0,
+            schema=[],
+            custom=[],
+            system=[];
+
+        while (this.designers[i].FormId != formId) {
+            i++;
+        };
+
+
+
+        data.forEach(function (elem) {
+          switch (elem.Prefix){
+              case "Schema":{
+                  schema.push(elem);
+                  break;}
+              case "Custom":{
+                  custom.push(elem);
+                  break;}
+              case "System":{
+                  system.push(elem);
+                  break;}
+          }
+        });
+        this.designers[i].Schema=schema;
+        this.designers[i].Custom=custom;
+        this.designers[i].System=system;
+
         localStorage.designers = JSON.stringify(this.designers);
     }
 });
