@@ -2431,11 +2431,10 @@ define({
         while (this.designers[i].FormId != formId) {
             i++;
         }
-        console.log(control);
-        console.log(this.designers[i].Control);
+
         this.designers[i].Control=control;
        localStorage.designers = JSON.stringify(this.designers);
-        console.log(this.designers[i].Control);
+        
     },
 
     setDataFromId: function(data, formId){

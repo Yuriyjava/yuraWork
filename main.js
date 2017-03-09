@@ -36,6 +36,7 @@ designers.view.bind("editControlsList", function (e) {
     var uniqProperties = new UniqPropertiesView(fieldTypeList);
     // routing
     var router = new kendo.Router();
+
     router.bind("init", function () {
         layout.render($("#app"));
         router.navigate("/baseFields");
@@ -64,27 +65,36 @@ designers.view.bind("editControlsList", function (e) {
         layout.showIn("#list", fieldTypeList.view);
     });
     router.route("/designers", function () {
+        $("header").show();
         $("#forView").empty();
         $("#list").empty();
         $("#grid").empty();
         layout.showIn("#forView", designers.view);
+        router.unbind("back");
 
     });
     router.route("/editDesigner", function (params) {
+
+        $("header").hide();
         $("#forView").empty();
         $("#list").empty();
         $("#grid").empty();
         var editDesigner = new editDesignerView(params.formId);
         layout.showIn("#forView", editDesigner.view);
-
+        router.bind("back", function (e) {
+            e.preventDefault();
+        });
     });
     router.route("/editControlsList", function (params) {
+        $("header").hide();
         $("#forView").empty();
         $("#list").empty();
         $("#grid").empty();
         var editControlsList = new editControlsListView(params.formId);
         layout.showIn("#forView", editControlsList.view);
-
+        router.bind("back", function (e) {
+            e.preventDefault();
+        });
     });
 
     $(function () {
